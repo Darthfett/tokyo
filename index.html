@@ -1,0 +1,105 @@
+<head>
+  <script src="main.js"></script>
+</head>
+<body>
+  <h1>Emperor of Tokyo</h1>
+  <h2><span id="current_player-name">Player 1</span>'s Turn</h2>
+  
+  <div id="controls_roll_dice">
+    <h3>Roll <span id="roll_number">0</span></h3>
+    <form>
+      <img id="die1" src="assets/dice/die_blank.png" />
+      <input type="checkbox" id="select_die1" disabled="true">
+      <img id="die2" src="assets/dice/die_blank.png" />
+      <input type="checkbox" id="select_die2" disabled="true">
+      <img id="die3" src="assets/dice/die_blank.png" />
+      <input type="checkbox" id="select_die3" disabled="true">
+      <img id="die4" src="assets/dice/die_blank.png" />
+      <input type="checkbox" id="select_die4" disabled="true">
+      <img id="die5" src="assets/dice/die_blank.png" />
+      <input type="checkbox" id="select_die5" disabled="true">
+      <img id="die6" src="assets/dice/die_blank.png" />
+      <input type="checkbox" id="select_die6" disabled="true">
+      <img id="die7" src="assets/dice/die_blank.png" hidden="true" />
+      <input type="checkbox" id="select_die7" disabled="true" checked="true" hidden="true">
+      <img id="die8" src="assets/dice/die_blank.png" hidden="true" />
+      <input type="checkbox" id="select_die8" disabled="true" checked="true" hidden="true">
+  
+      <button type="button" id="roll_dice">Roll Dice</button>
+    </form>
+  </div>
+  
+  <div id="status_bar">
+    <div id="player_1_status_bar">
+      <span id="player_1-name">Player 1</span>
+      <img src="assets/icons/health_icon.png" />
+      <span id="player_1-health">10</span>/<span id="player_1-max_health">10</span>
+      <img src="assets/icons/vp_icon.png" />
+      <span id="player_1-vp">0</span>/20
+      <img src="assets/icons/energy_icon.png" />
+      <span id="player_1-energy">0</span>
+      <img src="assets/icons/die_icon.png" />
+      <span id="player_1-dice">6</span>/6
+    </div>
+    
+    <div id="player_2_status_bar">
+      <span id="player_2-name">Player 2</span>
+      <img src="assets/icons/health_icon.png" />
+      <span id="player_2-health">10</span>/<span id="player_2-max_health">10</span>
+      <img src="assets/icons/vp_icon.png" />
+      <span id="player_2-vp">0</span>/20
+      <img src="assets/icons/energy_icon.png" />
+      <span id="player_2-energy">0</span>
+      <img src="assets/icons/die_icon.png" />
+      <span id="player_2-dice">6</span>/6
+    </div>
+    
+    <div id="player_3_status_bar">
+      <span id="player_3-name">Player 3</span>
+      <img src="assets/icons/health_icon.png" />
+      <span id="player_3-health">10</span>/<span id="player_3-max_health">10</span>
+      <img src="assets/icons/vp_icon.png" />
+      <span id="player_3-vp">0</span>/20
+      <img src="assets/icons/energy_icon.png" />
+      <span id="player_3-energy">0</span>
+      <img src="assets/icons/die_icon.png" />
+      <span id="player_3-dice">6</span>/6
+    </div>
+    
+    <div id="player_4_status_bar">
+      <span id="player_4-name">Player 4</span>
+      <img src="assets/icons/health_icon.png" />
+      <span id="player_4-health">10</span>/<span id="player_4-max_health">10</span>
+      <img src="assets/icons/vp_icon.png" />
+      <span id="player_4-vp">0</span>/20
+      <img src="assets/icons/energy_icon.png" />
+      <span id="player_4-energy">0</span>
+      <img src="assets/icons/die_icon.png" />
+      <span id="player_4-dice">6</span>/6
+    </div>
+    
+    <div id="player_5_status_bar" hidden="true">
+      <span id="player_5-name">Player 5</span>
+      <img src="assets/icons/health_icon.png" />
+      <span id="player_5-health">0</span>/<span id="player_5-max_health">10</span>
+      <img src="assets/icons/vp_icon.png" />
+      <span id="player_5-vp">0</span>/20
+      <img src="assets/icons/energy_icon.png" />
+      <span id="player_5-energy">0</span>
+      <img src="assets/icons/die_icon.png" />
+      <span id="player_5-dice">6</span>/6
+    </div>
+    
+    <div id="player_6_status_bar" hidden="true">
+      <span id="player_6-name">Player 6</span>
+      <img src="assets/icons/health_icon.png" />
+      <span id="player_6-health">0</span>/<span id="player_6-max_health">10</span>
+      <img src="assets/icons/vp_icon.png" />
+      <span id="player_6-vp">0</span>/20
+      <img src="assets/icons/energy_icon.png" />
+      <span id="player_6-energy">0</span>
+      <img src="assets/icons/die_icon.png" />
+      <span id="player_6-dice">6</span>/6
+    </div>
+  </div>
+</body>
