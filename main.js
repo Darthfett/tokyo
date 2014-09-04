@@ -23,8 +23,10 @@ function on_roll_dice() {
     }
     if (roll_count <= 0) return;
     ROLL++;    
-    var roll_number_span = document.getElementById("roll_number");    
+    var roll_number_span = document.getElementById("roll_number");
+    var rolls_left_span = document.getElementById("rolls_left");
     roll_number_span.innerHTML = ROLL;
+    rolls_left_span.innerHTML = 3-ROLL;
     
     if (ROLL >= 3) {
     

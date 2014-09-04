@@ -1,0 +1,43 @@
+.player_turnmarker {
+  width: 40px;
+  float: left;
+}
+
+.player_name {
+  float: left;
+  width: 100px;
+  outline: black solid 1px;
+  padding: 1px;
+  margin: 1px 4px;
+}
+
+.player_health {
+  width: 90px;
+  float: left;
+  outline: black solid 1px;
+  padding: 1px;
+  margin: 1px 4px;
+}
+
+.player_vp {
+  width: 80px;
+  float: left;
+  outline: black solid 1px;
+  padding: 1px;
+  margin: 1px 4px;
+}
+
+.player_energy {
+  width: 70px;
+  float: left;
+  outline: black solid 1px;
+  padding: 1px;
+  margin: 1px 4px;
+}
+
+.player_dice {
+}
+
+.player_status_bar {
+  height: 64px;  
+}
