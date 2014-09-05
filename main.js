@@ -57,7 +57,7 @@ function Player(id, name) {
     this.name = name;
     this.hp = 10;
     this.max_hp = 10;
-    this.vp = 10;
+    this.vp = 0;
     this.energy = 0;
     this.dice = 6;
     this.max_rolls = 3;
@@ -78,7 +78,7 @@ function get_next_player() {
     var i = (CurrentPlayer.id + 1) % NUM_PLAYERS;
     while (i != CurrentPlayer.id) {
         var p = Players[i];
-        if (p.hp >= 0) {
+        if (p.hp > 0) {
             return p;
         }
         i++;
@@ -88,6 +88,33 @@ function get_next_player() {
 
 function on_next_phase() {
     PHASE_END_FUNCTIONS[CurrentPhase]();
+}
+
+function update_player_status() {
+    var in_tokyo_span = document.getElementById("in_tokyo");
+    var players_in_tokyo = Players.filter(function(p) { return p.in_tokyo && p.hp > 0; });
+    if (players_in_tokyo.length) {
+        in_tokyo_span.innerHTML = players_in_tokyo.map(function(p) { return p.name; }).join(", ");
+    }
+
+    for(var i = 0; i < NUM_PLAYERS; i++) {
+        var p = Players[i];
+        if (p.hp <= 0) {
+            var status_bar = document.getElementById("player_" + (i + 1) + "_status_bar");
+            status_bar.hidden = true;
+            continue;
+        }
+        
+        var health_span = document.getElementById("player_" + (i + 1) + "-health");
+        var vp_span = document.getElementById("player_" + (i + 1) + "-vp");
+        var energy_span = document.getElementById("player_" + (i + 1) + "-energy");
+        var dice_span = document.getElementById("player_" + (i + 1) + "-dice");
+        
+        health_span.innerHTML = p.hp;
+        vp_span.innerHTML = p.vp;
+        energy_span.innerHTML = p.energy;
+        dice_span.innerHTML = p.dice;        
+    }
 }
 
 /* PRE_ROLL Phase */
@@ -104,6 +131,10 @@ function init_pre_roll_phase() {
     turnmarker_img.hidden = false;
     var current_player_span = document.getElementById("current_player-name");
     current_player_span.innerHTML = CurrentPlayer.name;
+    
+    if (CurrentPlayer.in_tokyo) {
+        CurrentPlayer.vp = Math.min(20, CurrentPlayer.vp + 2);
+    }
     
     next_phase();
 }
@@ -208,11 +239,69 @@ function init_pre_resolve_phase() {
 
 
 /* RESOLVE_DICE Phase */
+function get_dice_results() {
+    var results = {
+        one: 0,
+        two: 0,
+        three: 0,
+        energy: 0,
+        slap: 0,
+        heart: 0,
+    };
+    for(var i = 1; i <= CurrentPlayer.dice; i++) {
+        var die_img = document.getElementById("die" + i + "_img");
+        var die_filename = die_img.src.replace(/^.*[\\\/]/, '');
+        var die_result = die_filename.match(/^die_(.+)\.png$/m)[1];
+        results[die_result]++;
+    }
+    return results;
+}
+
 function end_resolve_dice_phase() {
     next_phase();
 }
 
-function init_resolve_dice_phase() {}
+function init_resolve_dice_phase() {
+    dice_result = get_dice_results();
+    
+    // Resolve dice
+    if (dice_result.one >= 3) {
+        CurrentPlayer.vp = Math.min(20, CurrentPlayer.vp + dice_result.one - 2);
+    }
+    if (dice_result.two >= 3) {
+        CurrentPlayer.vp = Math.min(20, CurrentPlayer.vp + dice_result.two - 1);
+    }
+    if (dice_result.three >= 3) {
+        CurrentPlayer.vp = Math.min(20, CurrentPlayer.vp + dice_result.three);
+    }
+    CurrentPlayer.energy += dice_result.energy;
+    
+    if (CurrentPlayer.in_tokyo) {
+        players_not_in_tokyo = Players.filter(function(p) { return !p.in_tokyo && p.hp > 0; });
+        for(var i = 0; i < players_not_in_tokyo.length; i++) {
+            var p = players_not_in_tokyo[i];
+            p.hp = Math.max(0, p.hp - dice_result.slap);
+        }
+    } else {
+        CurrentPlayer.hp = Math.min(CurrentPlayer.hp + dice_result.heart, CurrentPlayer.max_hp);
+        players_in_tokyo = Players.filter(function(p) { return p.in_tokyo && p.hp > 0; });
+        
+        if (players_in_tokyo.length) {
+            for(var i = 0; i < players_in_tokyo.length; i++) {
+                var p = players_in_tokyo[i];
+                p.hp = Math.max(0, p.hp - dice_result.slap);
+            }
+        }
+        players_in_tokyo = Players.filter(function(p) { return p.in_tokyo && p.hp > 0; });
+        if (!players_in_tokyo.length && dice_result.slap) {
+            CurrentPlayer.in_tokyo = true;
+            CurrentPlayer.vp = Math.min(20, CurrentPlayer.vp + 1);
+        }
+    }
+    
+    
+    update_player_status();
+}
 
 
 /* BUY_CARDS Phase */
