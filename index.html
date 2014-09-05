@@ -4,38 +4,67 @@
 </head>
 <body>
   <h1>Emperor of Tokyo</h1>
+  <h2>Current Phase: <span id="current_phase">None</span>
   <h2><span id="current_player-name">Player 1</span>'s Turn</h2>
 
 
-  <div id="controls_roll_dice">
+  <div id="dice">
     <h3>Roll <span id="roll_number">0</span> (<span id="rolls_left">3</span> left)</h3>
     <form>
-      <label for="select_die1"><img id="die1" src="assets/dice/die_blank.png" /></label>
-      <input type="checkbox" id="select_die1" disabled="true" />
-      <label for="select_die2"><img id="die2" src="assets/dice/die_blank.png" /></label>
-      <input type="checkbox" id="select_die2" disabled="true" />
-      <label for="select_die3"><img id="die3" src="assets/dice/die_blank.png" /></label>
-      <input type="checkbox" id="select_die3" disabled="true" />
-      <label for="select_die4"><img id="die4" src="assets/dice/die_blank.png" /></label>
-      <input type="checkbox" id="select_die4" disabled="true" />
-      <label for="select_die5"><img id="die5" src="assets/dice/die_blank.png" /></label>
-      <input type="checkbox" id="select_die5" disabled="true" />
-      <label for="select_die6"><img id="die6" src="assets/dice/die_blank.png" /></label>
-      <input type="checkbox" id="select_die6" disabled="true" />
-      <label for="select_die7"><img id="die7" src="assets/dice/die_blank.png" hidden="true" /></label>
-      <input type="checkbox" id="select_die7" disabled="true" checked="true" hidden="true" />
-      <label for="select_die8"><img id="die8" src="assets/dice/die_blank.png" hidden="true" /></label>
-      <input type="checkbox" id="select_die8" disabled="true" checked="true" hidden="true" />
-  
-      <button type="button" id="roll_dice">Roll Dice</button>
+      <div id="die1" class="die">
+        <label for="select_die1"><img id="die1_img" src="assets/dice/die_blank.png" /></label>
+        <input type="checkbox" id="select_die1" disabled="true">
+      </div>
+      
+      <div id="die2" class="die">
+        <label for="select_die2"><img id="die2_img" src="assets/dice/die_blank.png" /></label>
+        <input type="checkbox" id="select_die2" disabled="true">
+      </div>
+      
+      <div id="die3" class="die">
+        <label for="select_die3"><img id="die3_img" src="assets/dice/die_blank.png" /></label>
+        <input type="checkbox" id="select_die3" disabled="true">
+      </div>
+      
+      <div id="die4" class="die">
+        <label for="select_die4"><img id="die4_img" src="assets/dice/die_blank.png" /></label>
+        <input type="checkbox" id="select_die4" disabled="true">
+      </div>
+      
+      <div id="die5" class="die">
+        <label for="select_die5"><img id="die5_img" src="assets/dice/die_blank.png" /></label>
+        <input type="checkbox" id="select_die5" disabled="true">
+      </div>
+      
+      <div id="die6" class="die">
+        <label for="select_die6"><img id="die6_img" src="assets/dice/die_blank.png" /></label>
+        <input type="checkbox" id="select_die6" disabled="true">
+      </div>
+      
+      <div id="die7" class="die">
+        <label for="select_die7"><img id="die7_img" src="assets/dice/die_blank.png" hidden="true" /></label>
+        <input type="checkbox" id="select_die7" disabled="true" checked="true" hidden="true">
+      </div>
+      
+      <div id="die8" class="die">
+        <label for="select_die8"><img id="die8_img" src="assets/dice/die_blank.png" hidden="true" /></label>
+        <input type="checkbox" id="select_die8" disabled="true" checked="true" hidden="true">
+      </div>
     </form>
   </div>
-
+  
+  <div id="controls_roll_dice" hidden="true">
+    <div id="roll_dice_div" class="control_div"><button type="button" id="roll_dice">Roll Dice</button></div>
+  </div>
+  
+  <div id="controls_next_phase">
+    <div id="next_phase_div" class="control_div"><button type="button" id="next_phase">Next Phase</button></div>
+  </div>
 
   <div id="status_bar">
     <div id="player_1_status_bar" class="player_status_bar">
       <div class="player_turnmarker">
-        <img src="assets/icons/turnmarker_icon.png"/>
+        <img id="player_1_turnmarker" src="assets/icons/turnmarker_icon.png"/>
         &nbsp;
       </div>
       
@@ -64,7 +93,7 @@
     
     <div id="player_2_status_bar" class="player_status_bar">
       <div class="player_turnmarker">
-        <img src="assets/icons/turnmarker_icon.png" hidden="true"/>
+        <img id="player_2_turnmarker" src="assets/icons/turnmarker_icon.png" hidden="true"/>
         &nbsp;
       </div>
       
@@ -93,7 +122,7 @@
     
     <div id="player_3_status_bar" class="player_status_bar">
       <div class="player_turnmarker">
-        <img src="assets/icons/turnmarker_icon.png" hidden="true"/>
+        <img id="player_3_turnmarker" src="assets/icons/turnmarker_icon.png" hidden="true"/>
         &nbsp;
       </div>
       
@@ -122,7 +151,7 @@
     
     <div id="player_4_status_bar" class="player_status_bar">
       <div class="player_turnmarker">
-        <img src="assets/icons/turnmarker_icon.png" hidden="true"/>
+        <img id="player_4_turnmarker" src="assets/icons/turnmarker_icon.png" hidden="true"/>
         &nbsp;
       </div>
       
@@ -151,7 +180,7 @@
     
     <div id="player_5_status_bar" class="player_status_bar" hidden="true">
       <div class="player_turnmarker">
-        <img src="assets/icons/turnmarker_icon.png" hidden="true"/>
+        <img id="player_5_turnmarker" src="assets/icons/turnmarker_icon.png" hidden="true"/>
         &nbsp;
       </div>
       
@@ -180,7 +209,7 @@
     
     <div id="player_6_status_bar" class="player_status_bar" hidden="true">
       <div class="player_turnmarker">
-        <img src="assets/icons/turnmarker_icon.png" hidden="true"/>
+        <img id="player_6_turnmarker" src="assets/icons/turnmarker_icon.png" hidden="true"/>
         &nbsp;
       </div>
       

@@ -41,3 +41,16 @@
 .player_status_bar {
   height: 64px;  
 }
+
+.die {
+  float: left;
+  width: 64px;
+  height: 80px;
+  margin: 2px;
+  padding: 1px;
+  
+}
+
+.control_div {
+  clear: both;
+}
