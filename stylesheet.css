@@ -52,5 +52,18 @@
 }
 
 .control_div {
+  width: 120px;
+  float: left;
+}
+
+.control {
+  font-size: 14px;
+  width: 100px;
+  height: 40px;
+}
+
+#controls {
   clear: both;
+  padding: 10px;
+  height: 65px;
 }
