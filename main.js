@@ -136,6 +136,8 @@ function init_pre_roll_phase() {
         CurrentPlayer.vp = Math.min(20, CurrentPlayer.vp + 2);
     }
     
+    update_player_status();
+    
     next_phase();
 }
 
@@ -258,11 +260,32 @@ function get_dice_results() {
 }
 
 function end_resolve_dice_phase() {
+    var controls_exit_tokyo = document.getElementById("controls_exit_tokyo");
+    controls_exit_tokyo.hidden = true;
+    
     next_phase();
 }
 
+function on_exit_tokyo() {
+    // TODO: Handle multiple controls for multiple players in tokyo
+    var controls_exit_tokyo = document.getElementById("controls_exit_tokyo");
+    var players_in_tokyo = Players.filter(function(p) { return p.in_tokyo && p.hp > 0; });
+    
+    controls_exit_tokyo.hidden = true;
+    
+    for(var i = 0; i < players_in_tokyo.length; i++) {
+        var p = players_in_tokyo[i];
+        p.in_tokyo = false;
+    }
+    CurrentPlayer.in_tokyo = true;
+    CurrentPlayer.vp = Math.min(20, CurrentPlayer.vp + 1);
+    
+    update_player_status();    
+}
+
 function init_resolve_dice_phase() {
-    dice_result = get_dice_results();
+    var dice_result = get_dice_results();
+    var players_in_tokyo = Players.filter(function(p) { return p.in_tokyo && p.hp > 0; });
     
     // Resolve dice
     if (dice_result.one >= 3) {
@@ -277,14 +300,13 @@ function init_resolve_dice_phase() {
     CurrentPlayer.energy += dice_result.energy;
     
     if (CurrentPlayer.in_tokyo) {
-        players_not_in_tokyo = Players.filter(function(p) { return !p.in_tokyo && p.hp > 0; });
+        var players_not_in_tokyo = Players.filter(function(p) { return !p.in_tokyo && p.hp > 0; });
         for(var i = 0; i < players_not_in_tokyo.length; i++) {
             var p = players_not_in_tokyo[i];
             p.hp = Math.max(0, p.hp - dice_result.slap);
         }
     } else {
         CurrentPlayer.hp = Math.min(CurrentPlayer.hp + dice_result.heart, CurrentPlayer.max_hp);
-        players_in_tokyo = Players.filter(function(p) { return p.in_tokyo && p.hp > 0; });
         
         if (players_in_tokyo.length) {
             for(var i = 0; i < players_in_tokyo.length; i++) {
@@ -292,6 +314,7 @@ function init_resolve_dice_phase() {
                 p.hp = Math.max(0, p.hp - dice_result.slap);
             }
         }
+        
         players_in_tokyo = Players.filter(function(p) { return p.in_tokyo && p.hp > 0; });
         if (!players_in_tokyo.length && dice_result.slap) {
             CurrentPlayer.in_tokyo = true;
@@ -299,6 +322,12 @@ function init_resolve_dice_phase() {
         }
     }
     
+    players_in_tokyo = Players.filter(function(p) { return p.in_tokyo && p.hp > 0; });
+    if (players_in_tokyo.length && !CurrentPlayer.in_tokyo && dice_result.slap) {
+        // TODO: Handle multiple controls for multiple players in tokyo
+        var controls_exit_tokyo = document.getElementById("controls_exit_tokyo");
+        controls_exit_tokyo.hidden = false;
+    }
     
     update_player_status();
 }
@@ -340,6 +369,9 @@ function setup_listeners() {
     
     var next_phase_btn = document.getElementById("next_phase");
     next_phase_btn.addEventListener("click", on_next_phase);
+    
+    var exit_tokyo_btn = document.getElementById("exit_tokyo");
+    exit_tokyo_btn.addEventListener("click", on_exit_tokyo);
 }
 
 function init() {
